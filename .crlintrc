@@ -1,0 +1,10 @@
+[ignore]
+patterns=
+  */.*,
+  */build/*,
+  */node_modules/*,
+  *venv*,
+  *migrations*,
+  *static*,
+  *.pyc,
+  *htmlcov*,

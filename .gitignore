@@ -1,0 +1,17 @@
+.venv
+static
+build
+db.sqlite
+.idea/
+media/
+.DS_Store
+db.sqlite3
+.vscode
+*.pyc
+*/__pycache__/*
+VERSION.txt
+firebase_admin_service_file.json
+dist/
+*.egg-info/
+.coverage
+.env
