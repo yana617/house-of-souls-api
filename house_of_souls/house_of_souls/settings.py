@@ -1,6 +1,4 @@
 
-
-
 """
 Django settings for house_of_souls project.
 
@@ -13,22 +11,25 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
+import os
+from dotenv import load_dotenv
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
+load_dotenv()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'fl#ck^%hu4&djj07ic!&sv(v%b!z%gve45+85ct#w6ypn0_#d+'
+SECRET_KEY = os.environ['HOUSE_OF_SOULS_BACKEND_SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ['HOUSE_OF_SOULS_BACKEND_ENVIRONMENT'].upper() in ['DEBUG', 'TEST']
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ['HOUSE_OF_SOULS_BACKEND_ALLOWED_HOSTS']
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
@@ -144,4 +145,5 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATIC_URL = '/static/'
