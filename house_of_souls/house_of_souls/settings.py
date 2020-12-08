@@ -54,6 +54,7 @@ THIRD_PARTY_PACKAGES = [
     'rest_framework',
     'rest_framework.authtoken',
     'drf_yasg',
+    'django_extensions',
 ]
 
 INTERNAL_DEPENDENCIES = [
