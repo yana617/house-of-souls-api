@@ -48,8 +48,9 @@ ssh root@ip_address
 su - hos-backend
 cd house-of-souls-api/house_of_souls
 git pull --rebase
-python3 manage.py collectstatic
-python3 manage.py migrate
+python3 house_of_souls/manage.py collectstatic
+python3 house_of_souls/manage.py migrate
+exit
 sudo supervisorctl restart house-of-souls
 exit
 ```
