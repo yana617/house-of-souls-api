@@ -31,13 +31,14 @@ DEBUG = os.environ['HOUSE_OF_SOULS_BACKEND_ENVIRONMENT'].upper() in ['DEBUG', 'T
 
 ALLOWED_HOSTS = os.environ['HOUSE_OF_SOULS_BACKEND_ALLOWED_HOSTS']
 
+AUTH_USER_MODEL = 'users.User'
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework.authentication.SessionAuthentication',
-        'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
     'DATE_INPUT_FORMATS': ['%d-%m-%Y'],
@@ -48,11 +49,11 @@ REST_FRAMEWORK = {
 
 PROJECT_APPS = [
     'settings',
+    'users',
 ]
 
 THIRD_PARTY_PACKAGES = [
     'rest_framework',
-    'rest_framework.authtoken',
     'drf_yasg',
     'django_extensions',
 ]
