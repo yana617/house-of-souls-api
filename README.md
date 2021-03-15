@@ -1,5 +1,7 @@
 # README #
 
+Status of Last Deployment:<br>
+<img src="https://github.com/yana617/house-of-souls-api/workflows/HoS-CI/badge.svg"><br>
 
 ### Install pipenv:
 
