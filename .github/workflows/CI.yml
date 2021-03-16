@@ -22,12 +22,6 @@ jobs:
         pip install flake8 pylint pipenv
         ls -la
         if [ -f Pipfile ]; then pipenv install; fi
-    - name: Lint with flake8
-      run: |
-
-    - name: Test with pytest
-      run: |
-        pytest
 
   linting:
     runs-on: ubuntu-latest
