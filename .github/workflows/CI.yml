@@ -5,16 +5,6 @@ on:
     branches:
       - '**'        # matches every branch
 
-  workflow_dispatch:
-    inputs:
-        logLevel:
-          description: 'Log level'
-          required: true
-          default: 'warning'
-        reason:
-          description: 'Reason to run manually'
-          required: true
-
 jobs:
   lint-n-test:
 
@@ -60,10 +50,3 @@ jobs:
         cd house_of_souls/
         pipenv run coverage run --source='.' manage.py test
         pipenv run coverage report
-
-  printInputs:
-    runs-on: ubuntu-latest
-    steps:
-    - run: |
-        echo "Log level: ${{ github.event.inputs.logLevel }}"
-        echo "Tags: ${{ github.event.inputs.reason }}"
