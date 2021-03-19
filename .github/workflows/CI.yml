@@ -12,7 +12,6 @@ jobs:
     strategy:
       matrix:
         python-version: [3.8]
-    environment: HOUSE_OF_SOULS
 
     steps:
 
@@ -31,14 +30,10 @@ jobs:
 
     - name: Linting code
       run: |
-        echo "------------linting step-------------"
-        ls -la
-        # stop the build if there are Python syntax errors or undefined names
         pipenv run flake8 . --count --max-complexity=10 --max-line-length=127 --show-source --statistics
 
     - name: Unittest with coverage
       run: |
-        echo "------------testing step-------------"
         export HOUSE_OF_SOULS_BACKEND_SECRET_KEY="${{ secrets.HOUSE_OF_SOULS_BACKEND_SECRET_KEY }}"
         export HOUSE_OF_SOULS_BACKEND_ENVIRONMENT="${{ secrets.HOUSE_OF_SOULS_BACKEND_ENVIRONMENT }}"
         export HOUSE_OF_SOULS_BACKEND_ALLOWED_HOSTS="${{ secrets.HOUSE_OF_SOULS_BACKEND_ALLOWED_HOSTS }}"
