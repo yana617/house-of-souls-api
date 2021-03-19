@@ -1,3 +1,8 @@
 from django.test import TestCase
 
-# Create your tests here.
+
+class UsersModelTestcase(TestCase):
+
+    def test_first_stub(self):
+        print('It is OK')
+        self.assertTrue(1)
