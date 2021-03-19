@@ -49,7 +49,7 @@ jobs:
     - name: Unittest with coverage
       run: |
         echo "------------testing step-------------"
-        export HOUSE_OF_SOULS_BACKEND_SECRET_KEY=${{ secrets.HOUSE_OF_SOULS_BACKEND_SECRET_KEY }}
+        export HOUSE_OF_SOULS_BACKEND_SECRET_KEY="${{ secrets.HOUSE_OF_SOULS_BACKEND_SECRET_KEY }}"
         cd house_of_souls/
         pipenv run coverage run --source='.' manage.py test
         pipenv run coverage report
