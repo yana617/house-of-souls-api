@@ -10,7 +10,7 @@ def extra_kwargs_factory(fields, **options):
     return {k: options for k in fields}
 
 
-class LoginSerializer(serializers.Serializer):
+class LoginSerializer(serializers.ModelSerializer):
     phone = serializers.CharField(required=True)
 
     class Meta:
@@ -26,38 +26,46 @@ class LoginSerializer(serializers.Serializer):
             write_only=True
         )
 
+    def validate(self, data):
+        phone = data.get('phone', None)
 
-# class CustomerSerializer(serializers.ModelSerializer):
-#     addition_info = serializers.SerializerMethodField()
-#     token = serializers.SerializerMethodField()
-#
-#     class Meta:
-#         model = User
-#
-#         required_fields = (
-#             'username',
-#             'email',
-#             'password',
-#         )
-#
-#         fields = required_fields + (
-#             'id',
-#             'date_joined',
-#             'token',
-#             'is_temporary',
-#             'addition_info',
-#         )
-#         extra_kwargs = extra_kwargs_factory(
-#             required_fields,
-#             required=True,
-#             allow_null=False
-#         )
-#         read_only_fields = ('date_joined', 'is_temporary',)
-#         extra_kwargs.update(extra_kwargs_factory(('password', ), write_only=True))
-#
-#     def create(self, validated_data):
-#         return User.objects.create_customer(
-#             validated_data.pop('email').lower(),
-#             validated_data.pop('password'),
-#             **validated_data
-#         )
+        if phone is None:
+            raise serializers.ValidationError('phone should be provided')
+
+        user = User.objects.filter(phone=phone).first()
+        if user is None or not user.check_password(data['password']):
+            raise serializers.ValidationError('No user with such credentials')
+        return data
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+
+        required_fields = (
+            'phone',
+            'name',
+            'surname',
+            'email',
+            'password',
+        )
+
+        fields = required_fields + (
+            'id',
+            'date_joined',
+        )
+        extra_kwargs = extra_kwargs_factory(
+            required_fields,
+            required=True,
+            allow_null=False
+        )
+        read_only_fields = ('date_joined',)
+        extra_kwargs.update(extra_kwargs_factory(('password', ), write_only=True))
+
+    def create(self, validated_data):
+        return User.objects.create_user(
+            validated_data.pop('phone'),
+            validated_data.pop('password'),
+            **validated_data
+        )

@@ -20,36 +20,36 @@ class UsersAPIView(
 ):
     queryset = User.objects.filter(is_active=True, is_superuser=False, is_staff=False)
     permission_classes = [permissions.IsAuthenticated, ]
-    # serializer_class = serializers.UserSerializer
-    serializer_class = None
+    serializer_class = serializers.UserSerializer
 
-    # @action(
-    #     methods=['post'],
-    #     detail=False,
-    #     permission_classes=[permissions.AllowAny, ],
-    #     url_path='register',
-    # )
-    # def register(self, request, *args, **kwargs):
-    #     serializer = self.get_serializer(data=request.data)
-    #     serializer.is_valid(raise_exception=True)
-    #     return response.Response(
-    #         data=serializer.data,
-    #         status=status.HTTP_201_CREATED
-    #     )
+    @action(
+        methods=['post'],
+        detail=False,
+        permission_classes=[permissions.AllowAny, ],
+        url_path='register',
+    )
+    def register(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return response.Response(
+            data=serializer.data,
+            status=status.HTTP_201_CREATED
+        )
 
-    # @action(
-    #     methods=['get', 'put', 'patch'],
-    #     detail=False,
-    #     url_path='me'
-    # )
-    # def me(self, request, *args, **kwargs):
-    #     if request.method in ['PUT', 'PATCH']:
-    #         serializer = self.get_serializer(request.user, data=request.data, partial=True)
-    #         serializer.is_valid(raise_exception=True)
-    #         serializer.save()
-    #     else:
-    #         serializer = self.get_serializer(request.user)
-    #     return response.Response(data=serializer.data, status=status.HTTP_200_OK)
+    @action(
+        methods=['get', 'put', 'patch'],
+        detail=False,
+        url_path='me'
+    )
+    def me(self, request, *args, **kwargs):
+        if request.method in ['PUT', 'PATCH']:
+            serializer = self.get_serializer(request.user, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+        else:
+            serializer = self.get_serializer(request.user)
+        return response.Response(data=serializer.data, status=status.HTTP_200_OK)
 
     @action(
         methods=['post'],
@@ -74,7 +74,7 @@ class UsersAPIView(
         if auth_user is not None:
             auth.login(request, auth_user)
             return response.Response(
-                data=dict(username=serializer.validated_data['phone']),
+                data=self.get_serializer(request.user).data,
                 status=status.HTTP_200_OK,
             )
         else:
