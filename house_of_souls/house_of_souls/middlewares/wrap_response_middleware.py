@@ -13,6 +13,15 @@ class ResponseWrapper:
         response = self.get_response(request)
         return self.process_response(request, response)
 
+    def _process_error_messages(self, error_messages):
+        all_messages = []
+        for value in error_messages.values():
+            if isinstance(value, list):
+                all_messages.extend(value)
+            else:
+                all_messages.append(value)
+        return all_messages
+
     def process_response(self, request, response):
 
         status_code = response.status_code
@@ -33,12 +42,11 @@ class ResponseWrapper:
         }
 
         if is_error:
-            message = data
+            collected_errors = data
             data = None
-            response.data['message'] = message
-
-        # TODO set correct key
-        response.data['user'] = data
+            response.data['error_messages'] = self._process_error_messages(collected_errors)
+        else:
+            response.data['data'] = data
 
         response._is_rendered = False
         try:
