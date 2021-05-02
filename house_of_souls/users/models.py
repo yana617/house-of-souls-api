@@ -55,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     name = models.CharField(_('name'), max_length=30, blank=False)
     surname = models.CharField(_('surname'), max_length=30, blank=False)
     phone = PhoneNumberField(blank=False, null=False, max_length=13, unique=True)
+    birthday = models.DateField(blank=False, null=True)
     date_joined = models.DateTimeField(_('date joined'), default=timezone.now)
     email = models.EmailField(_('email address'), blank=True, unique=True, null=True)
 

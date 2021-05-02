@@ -5,10 +5,11 @@ from rest_framework import (
     permissions,
     response,
     status,
-    viewsets
+    viewsets,
+    mixins,
 )
-from . import serializers
-from rest_framework.decorators import action
+from . import serializers, permissions as users_perms
+from rest_framework.decorators import permission_classes, action
 
 
 User = auth.get_user_model()
@@ -16,11 +17,23 @@ User = auth.get_user_model()
 
 class UsersAPIView(
     viewsets.GenericViewSet,
+    mixins.ListModelMixin,
+    mixins.RetrieveModelMixin,
+    mixins.CreateModelMixin,
     APIView,
 ):
     queryset = User.objects.filter(is_active=True, is_superuser=False, is_staff=False)
-    permission_classes = [permissions.IsAuthenticated, ]
     serializer_class = serializers.UserSerializer
+    permission_classes = [permissions.IsAuthenticated, users_perms.AdminPermission, ]
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+        if self.action == 'retrieve' or self.action == 'list':
+            return [permissions.IsAuthenticated(), users_perms.ReedOnlyUsersPermission()]
+        else:
+            return super().get_permissions()
 
     @action(
         methods=['post'],
@@ -37,9 +50,16 @@ class UsersAPIView(
             status=status.HTTP_201_CREATED
         )
 
+    def create(self, request, *args, **kwargs):
+        raise exceptions.MethodNotAllowed(
+            request.method,
+            detail='Not allowed. Register with users/register',
+        )
+
     @action(
         methods=['get', 'put', 'patch'],
         detail=False,
+        permission_classes=[permissions.IsAuthenticated, ],
         url_path='me'
     )
     def me(self, request, *args, **kwargs):

@@ -12,12 +12,12 @@ class CustomUserAdmin(UserAdmin):
         (_('Permissions'), {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'is_admin', 'is_volunteer'),
         }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined', 'birthday',)}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('phone', 'password1', 'password2'),
+            'fields': ('phone', 'password1', 'password2', 'name', 'surname', 'birthday',),
         }),
     )
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'is_admin', 'is_volunteer')
@@ -26,6 +26,7 @@ class CustomUserAdmin(UserAdmin):
         'phone',
         'name',
         'surname',
+        'birthday',
         'email',
         'is_staff',
         'is_superuser',
@@ -33,7 +34,7 @@ class CustomUserAdmin(UserAdmin):
         'is_volunteer',
     )
     ordering = ('phone',)
-    search_fields = ('phone', 'name', 'surname', 'email')
+    search_fields = ('phone', 'name', 'surname', 'email', 'birthday',)
 
 
 admin.site.register(models.User, CustomUserAdmin)

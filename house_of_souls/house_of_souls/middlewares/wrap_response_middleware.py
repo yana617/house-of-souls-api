@@ -1,6 +1,3 @@
-# Copyright (c) 2019 Celadon Development LLC, All rights reserved.
-# Author Oleg Stadnick <oleg.stadnick@celadon.ae>
-
 import logging
 
 from rest_framework import status

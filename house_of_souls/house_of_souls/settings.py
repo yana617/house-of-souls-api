@@ -45,8 +45,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
-    'DATE_INPUT_FORMATS': ['%d-%m-%Y'],
-    'DATE_FORMAT': '%d-%m-%Y',
+    'DATE_INPUT_FORMATS': ['%Y-%m-%d'],
+    'DATE_FORMAT': '%Y-%m-%d',
 }
 
 # Application definition
