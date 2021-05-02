@@ -9,7 +9,7 @@ from rest_framework import (
     mixins,
 )
 from . import serializers, permissions as users_perms
-from rest_framework.decorators import permission_classes, action
+from rest_framework.decorators import action
 
 
 User = auth.get_user_model()
