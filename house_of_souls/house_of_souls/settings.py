@@ -33,6 +33,10 @@ ALLOWED_HOSTS = os.environ['HOUSE_OF_SOULS_BACKEND_ALLOWED_HOSTS']
 
 AUTH_USER_MODEL = 'users.User'
 
+PHONENUMBER_DB_FORMAT = 'E164'
+PHONENUMBER_DEFAULT_REGION = 'BY'
+
+
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
@@ -41,8 +45,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.BasicAuthentication',
     ],
-    'DATE_INPUT_FORMATS': ['%d-%m-%Y'],
-    'DATE_FORMAT': '%d-%m-%Y',
+    'DATE_INPUT_FORMATS': ['%Y-%m-%d'],
+    'DATE_FORMAT': '%Y-%m-%d',
 }
 
 # Application definition
@@ -56,6 +60,7 @@ THIRD_PARTY_PACKAGES = [
     'rest_framework',
     'drf_yasg',
     'django_extensions',
+    'phonenumber_field',
 ]
 
 INTERNAL_DEPENDENCIES = [
@@ -77,6 +82,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'house_of_souls.middlewares.wrap_response_middleware.ResponseWrapper',
 ]
 
 ROOT_URLCONF = 'house_of_souls.urls'

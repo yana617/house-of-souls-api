@@ -49,6 +49,8 @@ Faker = "==4.1.2"
 Jinja2 = "==2.11.2"
 MarkupSafe = "==1.1.1"
 gunicorn = "*"
+django-phonenumber-field = "*"
+phonenumberslite = "*"
 
 [requires]
 python_version = "3.8"
